@@ -23,11 +23,12 @@ code {
 	border-radius: 4px;
 }
 
-/* -------- Components ----------- */
-.grid-component {
+.grid {
 	display: grid;
 	grid-gap: 15px;
 }
+
+/* -------- Components ----------- */
 
 .card-product {
 	height: 148px;
@@ -43,7 +44,7 @@ code {
 }
 
 @media only screen and (max-width: 768px) {
-	.grid-component {
+	.grid {
 		display: flex;
 		flex-direction: column;
 	}
