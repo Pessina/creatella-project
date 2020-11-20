@@ -4,11 +4,13 @@ import GridComponent from "../components/GridComponent";
 import ProductCard from "../components/ProductCard.jsx";
 import ContainerComponent from "../components/ContainerComponent";
 import AdCard from "../components/AdCard";
+import Loading from "../components/Loading";
 
 const Products = ({}) => {
 	const [products, setProducts] = useState([]);
 	const [ad, setAd] = useState(null);
 	const [adGenerator, setAdGenerator] = useState(new Ads());
+	const [loading, setLoading] = useState(false);
 
 	const getProducts = async ({ page, sort }) => {
 		setProducts(await fetchProducts({ page, sort }));
@@ -25,6 +27,7 @@ const Products = ({}) => {
 
 	return (
 		<ContainerComponent>
+			<Loading loading={loading} />
 			<GridComponent nColumns={3}>
 				<AdCard ad={ad} />
 				{products.map((el) => (
