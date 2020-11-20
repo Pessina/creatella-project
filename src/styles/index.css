@@ -18,6 +18,11 @@ code {
 	align-items: center;
 }
 
+.border {
+	border: 1px solid #e4e4e4;
+	border-radius: 4px;
+}
+
 /* -------- Components ----------- */
 .grid-component {
 	display: grid;
@@ -29,6 +34,15 @@ code {
 		display: flex;
 		flex-direction: column;
 	}
+}
+
+.card-product {
+	height: 148px;
+	background-color: #e1e1e1;
+}
+
+.card-footer {
+	padding: 12px;
 }
 
 /* -------- Components ----------- */
