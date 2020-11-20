@@ -26,14 +26,7 @@ code {
 /* -------- Components ----------- */
 .grid-component {
 	display: grid;
-	grid-gap: 10px;
-}
-
-@media only screen and (max-width: 768px) {
-	.grid-component {
-		display: flex;
-		flex-direction: column;
-	}
+	grid-gap: 15px;
 }
 
 .card-product {
@@ -43,6 +36,17 @@ code {
 
 .card-footer {
 	padding: 12px;
+}
+
+.container-component {
+	margin: 72px 10%;
+}
+
+@media only screen and (max-width: 768px) {
+	.grid-component {
+		display: flex;
+		flex-direction: column;
+	}
 }
 
 /* -------- Components ----------- */

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Ads, fetchProducts } from "../utils/data";
 import GridComponent from "../components/GridComponent";
 import ProductCard from "../components/ProductCard.jsx";
+import ContainerComponent from "../components/ContainerComponent";
 
 const Products = ({}) => {
 	const [products, setProducts] = useState([]);
@@ -22,14 +23,14 @@ const Products = ({}) => {
 	}, []);
 
 	return (
-		<>
-			<img src={ad} />
+		<ContainerComponent centered>
+			{/* <img src={ad} /> */}
 			<GridComponent nColumns={3}>
 				{products.map((el) => (
 					<ProductCard key={el.id} {...el} />
 				))}
 			</GridComponent>
-		</>
+		</ContainerComponent>
 	);
 };
 
