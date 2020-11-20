@@ -41,7 +41,6 @@ code {
 }
 
 .flx-col {
-	display: flex;
 	flex-direction: column;
 }
 

@@ -13,7 +13,7 @@ export async function fetchProducts({ page = null, sort = null }) {
 		});
 		return data;
 	} catch (e) {
-		console.log(e);
+		console.log(`Error: ${e}`);
 	}
 }
 
