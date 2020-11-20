@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Ads, fetchProducts } from "../utils/data";
+import GridComponent from "../components/GridComponent";
 
 const Products = ({}) => {
 	const [products, setProducts] = useState([]);
@@ -22,16 +23,18 @@ const Products = ({}) => {
 	return (
 		<>
 			<img src={ad} />
-			{products.map((el) => (
-				<div>
-					<p>ID: {el.id}</p>
-					<p>Size: {el.size}</p>
-					<p>Price: ${el.price}</p>
-					<p>Face: {el.face}</p>
-					<p>Date: {el.date}</p>
-					<p>-------------------------</p>
-				</div>
-			))}
+			<GridComponent nColumns={3}>
+				{products.map((el) => (
+					<div>
+						<p>ID: {el.id}</p>
+						<p>Size: {el.size}</p>
+						<p>Price: ${el.price}</p>
+						<p>Face: {el.face}</p>
+						<p>Date: {el.date}</p>
+						<p>-------------------------------------------------</p>
+					</div>
+				))}
+			</GridComponent>
 		</>
 	);
 };
