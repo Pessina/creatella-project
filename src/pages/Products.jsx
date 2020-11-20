@@ -3,6 +3,7 @@ import { Ads, fetchProducts } from "../utils/data";
 import GridComponent from "../components/GridComponent";
 import ProductCard from "../components/ProductCard.jsx";
 import ContainerComponent from "../components/ContainerComponent";
+import AdCard from "../components/AdCard";
 
 const Products = ({}) => {
 	const [products, setProducts] = useState([]);
@@ -18,14 +19,14 @@ const Products = ({}) => {
 	};
 
 	useEffect(() => {
-		getProducts({ page: 1 });
+		getProducts({});
 		getAd();
 	}, []);
 
 	return (
-		<ContainerComponent centered>
-			{/* <img src={ad} /> */}
+		<ContainerComponent>
 			<GridComponent nColumns={3}>
+				<AdCard ad={ad} />
 				{products.map((el) => (
 					<ProductCard key={el.id} {...el} />
 				))}

@@ -3,15 +3,18 @@ import GridComponent from "./GridComponent";
 
 const ProductCard = ({ id, size, price, face, date }) => {
 	return (
-		<div className="border">
-			<div className="centered card-product">
-				<p style={{ fontSize: `${size}px` }}>{face}</p>
+		<div className=" border">
+			<div className="card-product">
+				<p name="face" style={{ fontSize: `${size}px` }}>
+					{face}
+				</p>
+				<p name="id" className="light-color">
+					{id}
+				</p>
 			</div>
 			<div className="card-footer">
-				<p>Size: {size}px</p>
-				<p>Price: ${price}</p>
-				<p>Id: {id}</p>
-				<p>Date: {date.split(" ").slice(1, 4).join("/")}</p>
+				<p>${price}</p>
+				<p>{date.split(" ").slice(1, 4).join("/")}</p>
 			</div>
 		</div>
 	);

@@ -1,12 +1,14 @@
 import React from "react";
 
-const GridComponent = ({ children, nColumns }) => {
+const GridComponent = ({ children, nColumns = 1 }) => {
 	let c = [];
+
+	// Remove null elements
 	if (children instanceof Array) c = children.filter((el) => el);
 
 	return (
 		<div
-			className={`grid`}
+			className="grid"
 			style={{
 				gridTemplateColumns: `repeat(${nColumns}, minmax(0, 1fr))`,
 			}}
