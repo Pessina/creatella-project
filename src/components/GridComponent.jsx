@@ -1,7 +1,7 @@
 import React from "react";
 
 const GridComponent = ({ children, nColumns = 1 }) => {
-	let c = [];
+	let c = children;
 
 	// Remove null elements
 	if (children instanceof Array) c = children.filter((el) => el);
