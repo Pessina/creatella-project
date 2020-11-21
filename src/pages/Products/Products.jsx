@@ -1,16 +1,13 @@
 import React from "react";
-import { Ads, fetchProducts } from "../utils/data";
-import GridComponent from "../components/GridComponent";
-import ProductCard from "../components/ProductCard.jsx";
-import ContainerComponent from "../components/ContainerComponent";
-import AdCard from "../components/AdCard";
-import Loading from "../components/Loading";
+import { Ads, fetchProducts } from "../../utils/data";
+import GridComponent from "../../components/GridComponent";
+import ContainerComponent from "../../components/ContainerComponent";
+import Loading from "../../components/Loading";
+import ListComponent from "./ListComponent";
 
 const productsInitialState = {
 	page: 1,
 	products: [],
-	ad: null,
-	adGenerator: new Ads(),
 	loading: false,
 };
 
@@ -21,7 +18,6 @@ export default class Products extends React.Component {
 		this.fetchLocker = false;
 
 		this.getProducts = this.getProducts.bind(this);
-		this.getAd = this.getAd.bind(this);
 		this.reachBottom = this.reachBottom.bind(this);
 	}
 
@@ -32,21 +28,10 @@ export default class Products extends React.Component {
 			sort,
 		});
 
-		if (reset)
-			this.setState(() => ({
-				products: products,
-				page: 2,
-			}));
-		else
-			this.setState((prevState) => ({
-				products: prevState.products.concat(products),
-				page: prevState.page + 1,
-			}));
-	}
+		if (reset) this.setState(() => ({ page: 2 }));
+		else this.setState((prevState) => ({ page: prevState.page + 1 }));
 
-	getAd() {
-		const { adGenerator } = this.state;
-		this.setState(() => ({ ad: adGenerator.fetchAd() }));
+		this.setState(() => ({ products }));
 	}
 
 	async reachBottom() {
@@ -64,8 +49,6 @@ export default class Products extends React.Component {
 
 	componentDidMount() {
 		this.getProducts();
-		this.getAd();
-
 		window.addEventListener("scroll", this.reachBottom, false);
 	}
 
@@ -74,17 +57,13 @@ export default class Products extends React.Component {
 	}
 
 	render() {
-		const { products, loading, ad } = this.state;
+		const { products, loading, page } = this.state;
 
 		return (
 			<ContainerComponent>
 				<Loading loading={loading} />
 				<GridComponent nColumns={3}>
-					<AdCard ad={ad} />
-					{/* It should have a key prop, but I can`t use the ID as keys, because have some that are the same */}
-					{products.map((el) => (
-						<ProductCard {...el} />
-					))}
+					<ListComponent list={products} reset={page === 1} />
 				</GridComponent>
 			</ContainerComponent>
 		);
