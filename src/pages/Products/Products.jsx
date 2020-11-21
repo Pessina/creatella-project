@@ -44,25 +44,15 @@ export default class Products extends React.Component {
 	}
 
 	async reachBottom() {
-		var isBottom =
-			window.innerHeight + window.scrollY >= document.body.offsetHeight - 50;
-
-		if (!this.fetchLocker && isBottom) {
-			this.fetchLocker = true;
-			this.setState({ loading: true });
-			await this.getProducts();
-			this.setState({ loading: false });
-			this.fetchLocker = false;
-		}
+		setInterval(() => {
+			this.setState((prevState) => ({
+				products: [...prevState.products, prevState.products.length + 1],
+			}));
+		}, 1000);
 	}
 
 	componentDidMount() {
-		this.getProducts();
-		window.addEventListener("scroll", this.reachBottom, false);
-	}
-
-	componentWillUnmount() {
-		window.removeEventListener("scroll", this.reachBottom, false);
+		this.reachBottom();
 	}
 
 	render() {
@@ -72,13 +62,11 @@ export default class Products extends React.Component {
 			<ContainerComponent>
 				<Loading loading={loading} />
 				<GridComponent nColumns={3}>
-					{products.map((el, i) =>
-						renderAd(i) ? (
-							<AdCard ad={adGenerator.fetchAd()} key={i.toString()} />
-						) : (
-							<ProductCard {...el} key={el.id} />
-						)
-					)}
+					{products.map((el) => (
+						<div key={el}>
+							<AdCard ad={adGenerator.fetchAd()} />
+						</div>
+					))}
 				</GridComponent>
 			</ContainerComponent>
 		);
