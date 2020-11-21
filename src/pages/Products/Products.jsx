@@ -3,12 +3,15 @@ import { Ads, fetchProducts } from "../../utils/data";
 import GridComponent from "../../components/GridComponent";
 import ContainerComponent from "../../components/ContainerComponent";
 import Loading from "../../components/Loading";
-import ListComponent from "./ListComponent";
+import { renderAd } from "../../utils/utils";
+import AdCard from "../../components/AdCard";
+import ProductCard from "../../components/ProductCard";
 
 const productsInitialState = {
 	page: 1,
 	products: [],
 	loading: false,
+	adGenerator: new Ads(),
 };
 
 export default class Products extends React.Component {
@@ -28,10 +31,16 @@ export default class Products extends React.Component {
 			sort,
 		});
 
-		if (reset) this.setState(() => ({ page: 2 }));
-		else this.setState((prevState) => ({ page: prevState.page + 1 }));
-
-		this.setState(() => ({ products }));
+		if (reset)
+			this.setState(() => ({
+				products,
+				page: 2,
+			}));
+		else
+			this.setState((prevState) => ({
+				products: [...prevState.products, ...products],
+				page: prevState.page + 1,
+			}));
 	}
 
 	async reachBottom() {
@@ -57,13 +66,19 @@ export default class Products extends React.Component {
 	}
 
 	render() {
-		const { products, loading, page } = this.state;
+		const { products, loading, page, adGenerator } = this.state;
 
 		return (
 			<ContainerComponent>
 				<Loading loading={loading} />
 				<GridComponent nColumns={3}>
-					<ListComponent list={products} reset={page === 1} />
+					{products.map((el, i) =>
+						renderAd(i) ? (
+							<AdCard ad={adGenerator.fetchAd()} key={i.toString()} />
+						) : (
+							<ProductCard {...el} key={el.id} />
+						)
+					)}
 				</GridComponent>
 			</ContainerComponent>
 		);

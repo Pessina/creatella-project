@@ -3,5 +3,5 @@ export const randomImgNumber = () => {
 };
 
 export const renderAd = (i) => {
-	return i > 0 && i % 20 === 0;
+	return i > 0 && i % 5 === 0;
 };
