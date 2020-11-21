@@ -24,15 +24,12 @@ export default class Products extends React.Component {
 
 	// reset - true: fetch page 1 || false: append products and add 1 to page
 	async getProducts(reset = false) {
-		const { page, sort, fetchLocker } = this.state;
-		if (fetchLocker) return;
+		const { page, sort } = this.state;
 
-		this.setState(() => ({ fetchLocker: true }));
 		const products = await fetchProducts({
 			page: reset ? 1 : page,
 			sort,
 		});
-		this.setState(() => ({ fetchLocker: false }));
 
 		if (reset) this.setState(() => ({ products, page: 2 }));
 		else
@@ -63,17 +60,23 @@ export default class Products extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getProducts(true).then(() => this.getProducts()); // Pre-emptively fetch next page
+		this.setState(() => ({ fetchLocker: true }));
+		this.getProducts(true)
+			.then(() => this.getProducts()) // Pre-emptively fetch next page
+			.then(() => this.setState(() => ({ fetchLocker: false })));
 
 		window.addEventListener("scroll", this.reachBottom, false);
 	}
 
 	componentDidUpdate() {
-		const { loading, preFetchedProducts } = this.state;
+		const { loading, preFetchedProducts, fetchLocker } = this.state;
 
 		// If the pre-emptivly fetched data array is empty, fetch next page
-		if (preFetchedProducts.length === 0) {
-			this.getProducts();
+		if (!fetchLocker && preFetchedProducts.length === 0) {
+			this.setState(() => ({ fetchLocker: true }));
+			this.getProducts().then(() =>
+				this.setState(() => ({ fetchLocker: false }))
+			);
 		}
 
 		// If the app is loading, the new data is directly rendered
