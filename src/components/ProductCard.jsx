@@ -1,5 +1,4 @@
 import React from "react";
-import GridComponent from "./GridComponent";
 
 const ProductCard = ({ id, size, price, face, date }) => {
 	return (
