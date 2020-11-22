@@ -19,7 +19,7 @@ const ListContent = ({ list = [], reset = false }) => {
 	};
 
 	useEffect(() => {
-		if (reset) setCurrList(renderList(list, currList.length));
+		if (reset) setCurrList(renderList(list, 0));
 		else setCurrList([...currList, ...renderList(list, currList.length)]);
 	}, [list, reset]);
 
