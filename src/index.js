@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Products from "./pages/Products";
+import Products from "./pages/Products/Products";
 import "./styles/index.css";
 
 ReactDOM.render(
