@@ -15,14 +15,13 @@ const productsInitialState = {
 	preFetchedProducts: [], // Store pre-emptivly fetched data
 	sort: null,
 	loading: false,
-	// fetchState: "IDLE", // ENUM: IDLE | FETCHING | END
 };
 
 export default class Products extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = productsInitialState;
-		this.fetchState = "IDLE";
+		this.fetchState = "IDLE"; // ENUM: IDLE | FETCHING | END (fetch last page)
 
 		this.getProducts = this.getProducts.bind(this);
 		this.reachBottom = this.reachBottom.bind(this);
@@ -31,10 +30,10 @@ export default class Products extends React.Component {
 
 	// reset - true: fetch page 1 || false: append products and add 1 to page
 	async getProducts(reset = false) {
-		const { page, sort } = this.state;
-		console.log(this.fetchState);
+		const { sort, page } = this.state;
 
-		if (this.fetchState !== "IDLE") return;
+		// TODO: Check if this can lead to error, because reset ignore fetchState
+		if (this.fetchState !== "IDLE" && !reset) return;
 
 		this.fetchState = "FETCHING";
 		const products = await fetchProducts({
@@ -46,18 +45,19 @@ export default class Products extends React.Component {
 		// There is no more products to fetch
 		if (products.length === 0) {
 			this.fetchState = "END";
-			return;
 		}
 
-		if (reset) this.setState(() => ({ products, page: 2 }));
-		else
+		if (reset) {
+			this.setState(() => ({ preFetchedProducts: [], products, page: 2 }));
+		} else {
 			this.setState((prevState) => ({
 				preFetchedProducts: products,
 				page: prevState.page + 1,
 			}));
+		}
 	}
 
-	async reachBottom() {
+	reachBottom() {
 		const { preFetchedProducts } = this.state;
 
 		const isBottom =
@@ -117,12 +117,15 @@ export default class Products extends React.Component {
 	}
 
 	render() {
-		const { products, loading, page } = this.state;
+		const { products, loading } = this.state;
 
 		return (
 			<ContainerComponent>
 				<GridComponent nColumns={3}>
-					<ListContent list={products} reset={page === 2} />
+					<ListContent
+						list={products}
+						reset={products.length === 0 && this.fetchState !== "END"}
+					/>
 				</GridComponent>
 				<Loading loading={loading} />
 				<EndListComponent show={this.fetchState === "END"} />
