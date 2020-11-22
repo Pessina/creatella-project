@@ -105,10 +105,10 @@ export default class Products extends React.Component {
 
 		return (
 			<ContainerComponent>
-				<Loading loading={loading} />
 				<GridComponent nColumns={3}>
 					<ListContent list={products} reset={page === 1} />
 				</GridComponent>
+				<Loading loading={loading} />
 				<EndListComponent show={fetchState === "END"} />
 			</ContainerComponent>
 		);
