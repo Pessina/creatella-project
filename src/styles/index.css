@@ -12,6 +12,10 @@ code {
 		monospace;
 }
 
+.font-big {
+	font-size: 24px;
+}
+
 .centered {
 	display: flex;
 	justify-content: center;
@@ -62,11 +66,11 @@ code {
 	margin: 12px;
 }
 
-p[name="face"] {
+.card-product [name="face"] {
 	margin: auto;
 }
 
-p[name="id"] {
+.card-product [name="id"] {
 	align-self: flex-end;
 	margin: 0px 12px 6px;
 }

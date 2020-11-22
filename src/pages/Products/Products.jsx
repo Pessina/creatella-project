@@ -3,6 +3,7 @@ import { fetchProducts } from "../../utils/data";
 import GridComponent from "../../components/GridComponent";
 import ContainerComponent from "../../components/ContainerComponent";
 import Loading from "../../components/Loading";
+import EndListComponent from "../../components/EndListComponent";
 import ListContent from "./ListContent";
 
 const productsInitialState = {
@@ -10,7 +11,7 @@ const productsInitialState = {
 	products: [], // Data to be rendered
 	preFetchedProducts: [], // Store pre-emptivly fetched data
 	loading: false,
-	fetchLocker: false, // Track if data is been fetched and avoid multiple simultaneously fetches
+	fetchState: "IDLE", // ENUM: IDLE | FETCHING | END
 };
 
 export default class Products extends React.Component {
@@ -24,15 +25,21 @@ export default class Products extends React.Component {
 
 	// reset - true: fetch page 1 || false: append products and add 1 to page
 	async getProducts(reset = false) {
-		const { page, sort, fetchLocker } = this.state;
+		const { page, sort, fetchState } = this.state;
 
-		if (fetchLocker) return;
+		if (fetchState !== "IDLE") return;
 
-		this.setState(() => ({ fetchLocker: true }));
+		this.setState(() => ({ fetchState: "FETCHING" }));
 		const products = await fetchProducts({
 			page: reset ? 1 : page,
 			sort,
 		});
+
+		// There is no more products to fetch
+		if (products.length === 0) {
+			this.setState(() => ({ fetchState: "END" }));
+			return;
+		}
 
 		if (reset) this.setState(() => ({ products, page: 2 }));
 		else
@@ -40,16 +47,16 @@ export default class Products extends React.Component {
 				preFetchedProducts: products,
 				page: prevState.page + 1,
 			}));
-		this.setState(() => ({ fetchLocker: false }));
+		this.setState(() => ({ fetchState: "IDLE" }));
 	}
 
 	async reachBottom() {
-		const { preFetchedProducts } = this.state;
+		const { preFetchedProducts, fetchState } = this.state;
 
-		var isBottom =
+		const isBottom =
 			window.innerHeight + window.scrollY >= document.body.offsetHeight - 50;
 
-		if (isBottom) {
+		if (isBottom && fetchState !== "END") {
 			// If there is no pre-fetched data, show "Loading"
 			if (preFetchedProducts.length === 0) {
 				this.setState({ loading: true });
@@ -64,16 +71,18 @@ export default class Products extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getProducts(true).then(() => this.getProducts()); // Pre-emptively fetch next page
+		this.getProducts(true);
 
 		window.addEventListener("scroll", this.reachBottom, false);
 	}
 
 	componentDidUpdate() {
-		const { loading, preFetchedProducts, fetchLocker } = this.state;
+		const { loading, preFetchedProducts, fetchState } = this.state;
+
+		if (fetchState === "END" && loading) this.setState({ loading: false });
 
 		// If the pre-emptivly fetched data array is empty, fetch next page
-		if (!fetchLocker && preFetchedProducts.length === 0) {
+		if (preFetchedProducts.length === 0) {
 			this.getProducts();
 		}
 
@@ -92,13 +101,15 @@ export default class Products extends React.Component {
 	}
 
 	render() {
-		const { products, loading, page } = this.state;
+		const { products, loading, page, fetchState } = this.state;
+
 		return (
 			<ContainerComponent>
 				<Loading loading={loading} />
 				<GridComponent nColumns={3}>
 					<ListContent list={products} reset={page === 1} />
 				</GridComponent>
+				<EndListComponent show={fetchState === "END"} />
 			</ContainerComponent>
 		);
 	}
