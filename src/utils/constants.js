@@ -5,3 +5,7 @@ export const sortOptions = [
 	{ value: "price", label: "Price" },
 	{ value: "id", label: "Id" },
 ];
+
+export const msDay = 1000 * 60 * 60 * 24;
+
+export const msSevendDays = msDay * 7;
