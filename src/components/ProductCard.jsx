@@ -14,13 +14,18 @@ const ProductCard = ({ id, size, price, face, date }) => {
 					{face}
 				</p>
 			</div>
-			<div className="card-footer">
-				<div>
+			<div className="card-footer centered">
+				<div className="flx centered">
+					<button
+						onClick={() => {
+							console.log("It's just a demo");
+						}}
+					>
+						Buy
+					</button>
 					<p>{formatPrice(price)}</p>
 				</div>
-				<div>
-					<p>{formatDate(date)}</p>
-				</div>
+				<p>{formatDate(date)}</p>
 			</div>
 		</div>
 	);

@@ -12,6 +12,23 @@ code {
 		monospace;
 }
 
+button {
+	all: unset;
+
+	padding: 4px 20px;
+
+	background: #0070ff;
+	border-radius: 4px;
+
+	font-weight: bold;
+	font-size: 16px;
+
+	color: #ffffff;
+	border: 1px solid #e1e1e1;
+
+	cursor: pointer;
+}
+
 .font-big {
 	font-size: 24px;
 }
@@ -41,7 +58,12 @@ code {
 	flex-direction: column;
 }
 
-@media only screen and (max-width: 768px) {
+.flx {
+	display: flex;
+}
+
+/* tablet width */
+@media only screen and (max-width: 1024px) {
 	.desktop {
 		display: none;
 	}
@@ -65,6 +87,10 @@ code {
 
 .card-footer p {
 	margin: 12px;
+}
+
+.card-footer button {
+	margin: 12px 0px 12px 12px;
 }
 
 .card-product [name="face"] {
@@ -94,6 +120,7 @@ code {
 	background-color: white;
 }
 
+/* mobile width */
 @media only screen and (max-width: 768px) {
 	.grid {
 		display: flex;
