@@ -1,5 +1,6 @@
 import React from "react";
 
+// TODO: Improve resonsiveness by allowing to set breakpoints
 const GridComponent = ({ children, nColumns = 1 }) => {
 	let c = children;
 

@@ -73,6 +73,18 @@ code {
 	grid-auto-rows: 1fr;
 }
 
+.footer {
+	position: fixed;
+	z-index: 1000;
+	width: 100%;
+	left: 0px;
+	bottom: 0px;
+	height: 72px;
+
+	border-top: 1px solid #e1e1e1;
+	background-color: white;
+}
+
 @media only screen and (max-width: 768px) {
 	.grid {
 		display: flex;
