@@ -36,13 +36,26 @@ code {
 	color: #7a7a7a;
 }
 
+.flx-column {
+	display: flex;
+	flex-direction: column;
+}
+
+@media only screen and (max-width: 768px) {
+	.desktop {
+		display: none;
+	}
+}
+
 /* -------- Components ----------- */
 
 .card-product {
-	height: 148px;
+	min-height: 148px;
 	background-color: #e1e1e1;
 	display: flex;
 	flex-direction: column;
+	flex-grow: 1;
+	overflow-wrap: anywhere;
 }
 
 .card-footer {
@@ -56,15 +69,11 @@ code {
 
 .card-product [name="face"] {
 	margin: auto;
-}
-
-.card-product [name="id"] {
-	align-self: flex-end;
-	margin: 0px 12px 6px;
+	padding: 12px;
 }
 
 .container-component {
-	margin: 72px 10%;
+	margin: 72px 3%;
 }
 
 .grid {

@@ -1,19 +1,26 @@
 import React from "react";
+import { formatDate, formatPrice } from "../utils/utils";
 
+// TODO: the biggest emojis on big fonts bug the layout (change cards height)
 const ProductCard = ({ id, size, price, face, date }) => {
 	return (
-		<div className=" border">
+		<div className=" border flx-column">
 			<div className="card-product">
+				<div className="card-footer light-color">
+					<p className="desktop">Size:{size}</p>
+					<p>{id}</p>
+				</div>
 				<p name="face" style={{ fontSize: `${size}px` }}>
 					{face}
 				</p>
-				<p name="id" className="light-color">
-					{id}
-				</p>
 			</div>
 			<div className="card-footer">
-				<p>${price}</p>
-				<p>{date.split(" ").slice(1, 4).join("/")}</p>
+				<div>
+					<p>{formatPrice(price)}</p>
+				</div>
+				<div>
+					<p>{formatDate(date)}</p>
+				</div>
 			</div>
 		</div>
 	);
