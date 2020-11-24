@@ -1,22 +1,13 @@
 import React from "react";
 
 // TODO: Improve resonsiveness by allowing to set breakpoints
-const GridComponent = ({ children, nColumns = 1 }) => {
+const GridComponent = ({ children }) => {
 	let c = children;
 
 	// Remove null elements
 	if (children instanceof Array) c = children.filter((el) => el);
 
-	return (
-		<div
-			className="grid"
-			style={{
-				gridTemplateColumns: `repeat(${nColumns}, minmax(0, 1fr))`,
-			}}
-		>
-			{c}
-		</div>
-	);
+	return <div className="grid">{c}</div>;
 };
 
 export default GridComponent;

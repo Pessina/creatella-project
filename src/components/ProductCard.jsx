@@ -15,7 +15,7 @@ const ProductCard = ({ id, size, price, face, date }) => {
 				</p>
 			</div>
 			<div className="card-footer centered">
-				<div className="flx centered">
+				<div className="centered">
 					<button
 						onClick={() => {
 							console.log("It's just a demo");

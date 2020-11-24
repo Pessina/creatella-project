@@ -121,7 +121,7 @@ export default class Products extends React.Component {
 
 		return (
 			<ContainerComponent>
-				<GridComponent nColumns={3}>
+				<GridComponent>
 					<ListContent
 						list={products}
 						reset={products.length === 0 && this.fetchState !== "END"}
