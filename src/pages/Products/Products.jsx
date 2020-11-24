@@ -14,7 +14,7 @@ const productsInitialState = {
 	products: [], // Data to be rendered
 	preFetchedProducts: [], // Store pre-emptivly fetched data
 	sort: null,
-	loading: false,
+	loading: true,
 };
 
 export default class Products extends React.Component {
@@ -80,10 +80,8 @@ export default class Products extends React.Component {
 
 	sortChange(selected) {
 		this.setState(() => ({
+			...productsInitialState,
 			sort: selected.value,
-			loading: true,
-			products: [],
-			preFetchedProducts: [],
 		}));
 	}
 
