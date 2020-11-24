@@ -3,6 +3,7 @@ import { shouldRenderAd } from "../../utils/utils";
 import ProductCard from "../../components/ProductCard.jsx";
 import AdCard from "../../components/AdCard";
 import { ads } from "../../utils/data";
+import Loading from "../../components/Loading";
 
 const ListContent = ({ list = [], reset = false }) => {
 	const [currList, setCurrList] = useState([]);
@@ -22,6 +23,8 @@ const ListContent = ({ list = [], reset = false }) => {
 		if (reset) setCurrList(renderList(list, 0));
 		else setCurrList([...currList, ...renderList(list, currList.length)]);
 	}, [list, reset]);
+
+	if (currList.length === 0) return <Loading loading={true} />;
 
 	return <>{currList}</>;
 };

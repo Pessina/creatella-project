@@ -15,6 +15,7 @@ export async function fetchProducts({ page = null, sort = null, limit = 20 }) {
 		return data;
 	} catch (e) {
 		console.log(`Error: ${e}`);
+		return undefined;
 	}
 }
 

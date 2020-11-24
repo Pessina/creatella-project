@@ -21,7 +21,7 @@ export default class Products extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = productsInitialState;
-		this.fetchState = "IDLE"; // ENUM: IDLE | FETCHING | END (fetch last page)
+		this.fetchState = "IDLE"; // ENUM: IDLE | FETCHING | END (fetch last page) | ERROR
 
 		this.getProducts = this.getProducts.bind(this);
 		this.reachBottom = this.reachBottom.bind(this);
@@ -43,9 +43,10 @@ export default class Products extends React.Component {
 		this.fetchState = "IDLE";
 
 		// There is no more products to fetch
-		if (products.length === 0) {
-			this.fetchState = "END";
-		}
+		if (products?.length === 0) this.fetchState = "END";
+
+		// There is some error on request
+		if (!products) return (this.fetchState = "ERROR");
 
 		if (reset) {
 			this.setState(() => ({ preFetchedProducts: [], products, page: 2 }));
@@ -98,7 +99,7 @@ export default class Products extends React.Component {
 		if (this.fetchState === "END" && loading) this.setState({ loading: false });
 
 		// If the pre-emptivly fetched data array is empty, fetch next page
-		if (preFetchedProducts.length === 0) {
+		if (preFetchedProducts?.length === 0) {
 			this.getProducts(prevState.sort !== sort);
 		}
 
@@ -124,7 +125,7 @@ export default class Products extends React.Component {
 				<GridComponent>
 					<ListContent
 						list={products}
-						reset={products.length === 0 && this.fetchState !== "END"}
+						reset={products?.length === 0 && this.fetchState !== "END"}
 					/>
 				</GridComponent>
 				<Loading loading={loading} />

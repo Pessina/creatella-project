@@ -1,6 +1,6 @@
 import React from "react";
 
-// TODO: Improve resonsiveness by allowing to set breakpoints
+// Using 'flex-wrap' to allow the grid adapt card width to face width
 const GridComponent = ({ children }) => {
 	let c = children;
 

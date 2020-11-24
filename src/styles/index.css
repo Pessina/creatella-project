@@ -73,7 +73,6 @@ button {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
-	/* overflow-wrap: anywhere; */
 }
 
 .card-footer {
@@ -101,9 +100,6 @@ button {
 .grid {
 	display: flex;
 	flex-wrap: wrap;
-	/* display: grid;
-	grid-gap: 15px;
-	grid-auto-rows: 1fr; */
 }
 .grid > * {
 	margin: 12px;

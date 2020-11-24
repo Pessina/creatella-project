@@ -1,7 +1,6 @@
 import React from "react";
 import { formatDate, formatPrice } from "../utils/utils";
 
-// TODO: the biggest emojis on big fonts bug the layout (change cards height)
 const ProductCard = ({ id, size, price, face, date }) => {
 	return (
 		<div className=" border flx-column">
@@ -18,7 +17,7 @@ const ProductCard = ({ id, size, price, face, date }) => {
 				<div className="centered">
 					<button
 						onClick={() => {
-							console.log("It's just a demo");
+							alert("It's just a demo");
 						}}
 					>
 						Buy
