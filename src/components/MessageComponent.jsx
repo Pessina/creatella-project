@@ -1,15 +1,15 @@
 import React from "react";
 
-const EndListComponent = ({ show }) => {
+const MessageComponent = ({ show, message }) => {
 	if (!show) return null;
 
 	return (
 		<div className="centered">
 			<p className="font-big">
-				<strong>~ end of catalogue ~</strong>
+				<strong>~ {message} ~</strong>
 			</p>
 		</div>
 	);
 };
 
-export default EndListComponent;
+export default MessageComponent;

@@ -3,7 +3,7 @@ import { fetchProducts } from "../../utils/data";
 import GridComponent from "../../components/GridComponent";
 import ContainerComponent from "../../components/ContainerComponent";
 import Loading from "../../components/Loading";
-import EndListComponent from "../../components/EndListComponent";
+import MessageComponent from "../../components/MessageComponent";
 import ListContent from "./ListContent";
 import FooterComponent from "../../components/FooterComponent";
 import { sortOptions } from "../../utils/constants";
@@ -130,7 +130,16 @@ export default class Products extends React.Component {
 					/>
 				</GridComponent>
 				<Loading loading={loading} />
-				<EndListComponent show={fetchState === "END"} />
+				<MessageComponent
+					show={fetchState === "END"}
+					message={"End of catalog"}
+				/>
+				<MessageComponent
+					show={fetchState === "ERROR"}
+					message={
+						"Something went wrong. Reload the page or check the server connection"
+					}
+				/>
 				<FooterComponent>
 					<SelectComponent
 						isDisabled={fetchState === "FETCHING"}
