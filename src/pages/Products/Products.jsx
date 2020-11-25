@@ -15,14 +15,13 @@ const productsInitialState = {
 	preFetchedProducts: [], // Store pre-emptivly fetched data
 	sort: null,
 	loading: false,
-	fetchState: "IDLE",
+	fetchState: "IDLE", // ENUM: IDLE | FETCHING | END (fetch last page) | ERROR
 };
 
 export default class Products extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = productsInitialState;
-		// this.fetchState = "IDLE"; // ENUM: IDLE | FETCHING | END (fetch last page) | ERROR
 
 		this.getProducts = this.getProducts.bind(this);
 		this.reachBottom = this.reachBottom.bind(this);
@@ -33,7 +32,6 @@ export default class Products extends React.Component {
 	async getProducts(reset = false) {
 		const { sort, page, fetchState } = this.state;
 
-		// TODO: Check if this can lead to error, because reset ignore fetchState
 		if (fetchState !== "IDLE") return;
 
 		this.setState(() => ({ fetchState: "FETCHING" }));
