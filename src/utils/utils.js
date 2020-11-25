@@ -10,7 +10,7 @@ export const shouldRenderAd = (i, interval) => {
 };
 
 export const formatPrice = (price) => {
-	return `$${price / 100}`;
+	return `$${(price / 100).toFixed(2)}`;
 };
 
 // I'm assuming that I should format the date based only on days difference, ignoring the hours
