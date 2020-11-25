@@ -1,7 +1,7 @@
 import React from "react";
 import Select from "react-select";
 
-const SelectComponent = ({ options, onChange }) => {
+const SelectComponent = ({ options, onChange, ...props }) => {
 	const styles = {
 		control: (styles) => ({
 			...styles,
@@ -12,10 +12,12 @@ const SelectComponent = ({ options, onChange }) => {
 	return (
 		<Select
 			styles={styles}
+			isSearchable={false}
 			menuPlacement="top"
 			options={options}
 			onChange={onChange}
 			placeholder="Sort by ..."
+			{...props}
 		/>
 	);
 };
