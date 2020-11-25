@@ -14,14 +14,15 @@ const productsInitialState = {
 	products: [], // Data to be rendered
 	preFetchedProducts: [], // Store pre-emptivly fetched data
 	sort: null,
-	loading: true,
+	loading: false,
+	fetchState: "IDLE",
 };
 
 export default class Products extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = productsInitialState;
-		this.fetchState = "IDLE"; // ENUM: IDLE | FETCHING | END (fetch last page) | ERROR
+		// this.fetchState = "IDLE"; // ENUM: IDLE | FETCHING | END (fetch last page) | ERROR
 
 		this.getProducts = this.getProducts.bind(this);
 		this.reachBottom = this.reachBottom.bind(this);
@@ -30,23 +31,23 @@ export default class Products extends React.Component {
 
 	// reset - true: fetch page 1 || false: append products and add 1 to page
 	async getProducts(reset = false) {
-		const { sort, page } = this.state;
+		const { sort, page, fetchState } = this.state;
 
 		// TODO: Check if this can lead to error, because reset ignore fetchState
-		if (this.fetchState !== "IDLE" && !reset) return;
+		if (fetchState !== "IDLE") return;
 
-		this.fetchState = "FETCHING";
+		this.setState(() => ({ fetchState: "FETCHING" }));
 		const products = await fetchProducts({
 			page: reset ? 1 : page,
 			sort,
 		});
-		this.fetchState = "IDLE";
 
 		// There is no more products to fetch
-		if (products?.length === 0) this.fetchState = "END";
+		if (products?.length === 0)
+			return this.setState(() => ({ fetchState: "END" }));
 
 		// There is some error on request
-		if (!products) return (this.fetchState = "ERROR");
+		if (!products) return this.setState(() => ({ fetchState: "ERROR" }));
 
 		if (reset) {
 			this.setState(() => ({ preFetchedProducts: [], products, page: 2 }));
@@ -56,15 +57,17 @@ export default class Products extends React.Component {
 				page: prevState.page + 1,
 			}));
 		}
+
+		this.setState(() => ({ fetchState: "IDLE" }));
 	}
 
 	reachBottom() {
-		const { preFetchedProducts } = this.state;
+		const { preFetchedProducts, fetchState } = this.state;
 
 		const isBottom =
 			window.innerHeight + window.scrollY >= document.body.offsetHeight - 50;
 
-		if (isBottom && this.fetchState !== "END") {
+		if (isBottom && fetchState !== "END") {
 			// If there is no pre-fetched data, show "Loading"
 			if (preFetchedProducts.length === 0) {
 				this.setState({ loading: true });
@@ -92,9 +95,9 @@ export default class Products extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		const { loading, preFetchedProducts, sort } = this.state;
+		const { loading, preFetchedProducts, sort, fetchState } = this.state;
 
-		if (this.fetchState === "END" && loading) this.setState({ loading: false });
+		if (fetchState === "END" && loading) this.setState({ loading: false });
 
 		// If the pre-emptivly fetched data array is empty, fetch next page
 		if (preFetchedProducts?.length === 0) {
@@ -116,20 +119,24 @@ export default class Products extends React.Component {
 	}
 
 	render() {
-		const { products, loading } = this.state;
+		const { products, loading, fetchState } = this.state;
 
 		return (
 			<ContainerComponent>
 				<GridComponent>
 					<ListContent
 						list={products}
-						reset={products?.length === 0 && this.fetchState !== "END"}
+						reset={products?.length === 0 && fetchState !== "END"}
 					/>
 				</GridComponent>
 				<Loading loading={loading} />
-				<EndListComponent show={this.fetchState === "END"} />
+				<EndListComponent show={fetchState === "END"} />
 				<FooterComponent>
-					<SelectComponent options={sortOptions} onChange={this.sortChange} />
+					<SelectComponent
+						isDisabled={fetchState === "FETCHING"}
+						options={sortOptions}
+						onChange={this.sortChange}
+					/>
 				</FooterComponent>
 			</ContainerComponent>
 		);
